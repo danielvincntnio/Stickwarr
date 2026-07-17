@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stick War Arena</title>
+    <!-- Menambahkan Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Space Mono', monospace; }
+        h1, h2 { font-family: 'Montserrat', sans-serif; }
+        
+        .page { display: none; }
+        .active { display: block; }
+        .card { transition: all 0.3s ease; cursor: pointer; }
+        .card:hover { transform: translateY(-5px); border-color: #000; }
+        
+        @keyframes bounce-scale {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .animate-click { animation: bounce-scale 0.3s ease; }
+    </style>
+</head>
+<body class="p-4 md:p-10 bg-gray-50">
+
+    <!-- Halaman Utama -->
+    <div id="home" class="page active">
+        <header class="text-center mb-16">
+            <h1 class="text-5xl font-black uppercase tracking-tighter mb-4">Stick War Arena</h1>
+            <p class="text-gray-500 tracking-widest text-sm uppercase">Pilih pasukan untuk memulai pertempuran</p>
+        </header>
+
+        <main class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="card bg-white p-6 border-2 border-gray-200 shadow-sm" onclick="showDetail('Swordwrath')">
+                <div class="text-6xl mb-4">⚔️</div>
+                <h2 class="text-2xl font-bold mb-2">SWORDWRATH</h2>
+                <span class="inline-block bg-black text-white px-3 py-1 text-[10px] tracking-widest uppercase">Agility Tinggi</span>
+            </div>
+            <div class="card bg-white p-6 border-2 border-gray-200 shadow-sm" onclick="showDetail('Archidon')">
+                <div class="text-6xl mb-4">🏹</div>
+                <h2 class="text-2xl font-bold mb-2">ARCHIDON</h2>
+                <span class="inline-block bg-black text-white px-3 py-1 text-[10px] tracking-widest uppercase">Jarak Jauh</span>
+            </div>
+            <div class="card bg-white p-6 border-2 border-gray-200 shadow-sm" onclick="showDetail('Spearton')">
+                <div class="text-6xl mb-4">🛡️</div>
+                <h2 class="text-2xl font-bold mb-2">SPEARTON</h2>
+                <span class="inline-block bg-black text-white px-3 py-1 text-[10px] tracking-widest uppercase">Pertahanan</span>
+            </div>
+        </main>
+    </div>
+
+    <!-- Halaman Detail -->
+    <div id="detail" class="page max-w-3xl mx-auto">
+        <button onclick="goHome()" class="mb-8 text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-black transition-colors">&larr; Kembali</button>
+        <h2 id="detail-title" class="text-4xl font-black uppercase mb-8 tracking-tighter"></h2>
+        <div id="unit-list" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+    </div>
+
+    <script>
+        const data = {
+            'Swordwrath': ['Elite Sword', 'Ninja Stick', 'Ronin Shadow'],
+            'Archidon': ['Hunter Bow', 'Sniper Stick', 'Crossbow Master'],
+            'Spearton': ['Iron Guard', 'Royal Shield', 'Spartan Legend']
+        };
+
+        function showDetail(type) {
+            document.getElementById('home').classList.remove('active');
+            document.getElementById('detail').classList.add('active');
+            document.getElementById('detail-title').innerText = type;
+            
+            const list = document.getElementById('unit-list');
+            list.innerHTML = data[type].map(unit => `
+                <div class="bg-white p-6 border-2 border-gray-200 text-center hover:border-black transition-all group" onclick="triggerAnimation(this)">
+                    <div class="text-5xl mb-4">👤</div>
+                    <p class="font-bold mb-4 tracking-tight">${unit.toUpperCase()}</p>
+                    <button onclick="window.location.href='https://stickwarr.netlify.app/'" class="w-full bg-white border-2 border-black py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all">Pilih</button>
+                </div>
+            `).join('');
+        }
+
+        function triggerAnimation(element) {
+            element.classList.add('animate-click');
+            setTimeout(() => element.classList.remove('animate-click'), 300);
+        }
+
+        function goHome() {
+            document.getElementById('detail').classList.remove('active');
+            document.getElementById('home').classList.add('active');
+        }
+    </script>
+</body>
+</html>
+
